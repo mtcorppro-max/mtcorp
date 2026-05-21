@@ -18,7 +18,7 @@
   <style>
     /* ─── RESET ─── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
     body {
       font-family: 'Inter', sans-serif;
       background: #06090f;
@@ -362,7 +362,7 @@
     }
 
     /* ─── HISTOIRE ─── */
-    .histoire-sect { background: #fff; }
+    .histoire-sect { background: #fff; overflow: hidden; }
     .histoire-hero {
       display: grid; grid-template-columns: 1fr 1fr;
       gap: 80px; align-items: center;
@@ -830,7 +830,8 @@
 
       /* Services carousel */
       .svc-header { padding: 0 16px; }
-      .svc-fan-outer { height: auto; margin-top: 24px; overflow: visible; padding-bottom: 8px; }
+      .svc-fan-outer { height: auto; margin-top: 24px; overflow: hidden; padding-bottom: 8px; }
+      .services-sect { overflow: hidden; }
       .svc-fan-stage { perspective: none; position: relative; display: flex; align-items: center; justify-content: center; }
       .svc-card-border { position: relative !important; left: auto !important; bottom: auto !important; transform: none !important; opacity: 0 !important; display: none; margin: 0; width: calc(100vw - 48px); max-width: 380px; }
       .svc-card-border.mob-active { display: block; opacity: 1 !important; }
