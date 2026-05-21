@@ -832,14 +832,16 @@
       .histoire-right { display: none; }
 
       /* Services carousel */
-      .svc-fan-outer { height: 300px; }
+      .svc-header { padding: 0 16px; }
+      .svc-fan-outer { height: 320px; margin-top: 24px; }
       .svc-fan-stage { perspective: none; }
-      .svc-step-card { width: 300px; height: 220px; }
-      .svc-card-border { left: calc(50% - 152px); bottom: 20px; }
-      .svc-step-title { font-size: 1rem; }
-      .svc-step-desc { font-size: .78rem; }
-      .svc-step-body { bottom: 18px; left: 18px; right: 18px; }
+      .svc-step-card { width: calc(100vw - 48px); max-width: 360px; height: 260px; }
+      .svc-card-border { left: 50%; transform: translateX(-50%); bottom: 16px; }
+      .svc-step-title { font-size: 1.05rem; }
+      .svc-step-desc { font-size: .82rem; line-height: 1.5; }
+      .svc-step-body { bottom: 20px; left: 20px; right: 20px; }
       .svc-step-icon { width: 40px; height: 40px; top: 14px; left: 14px; }
+      .svc-step-card.active { box-shadow: inset 0 0 0 1px rgba(255,255,255,.35); }
 
       /* Réalisations */
       .proj-item { grid-template-columns: 1fr; gap: 32px; padding: 40px 0; }
@@ -1771,7 +1773,7 @@
         const z     = -abs * DEPTH_PX();
 
         w.style.transform = `translateX(${x}px) translateY(${y}px) scale(${scale}) rotateX(${rotX}deg) rotateZ(${rotZ}deg) translateZ(${z}px)`;
-        w.style.filter = isActive ? 'brightness(1.15)' : `brightness(${0.65 - abs * 0.1})`;
+        w.style.filter = isMobile() ? 'none' : (isActive ? 'brightness(1.15)' : `brightness(${0.65 - abs * 0.1})`);
 
         const inner = w.querySelector('.svc-step-card');
         if (inner) inner.classList.toggle('active', isActive);
