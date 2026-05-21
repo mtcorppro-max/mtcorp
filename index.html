@@ -12,6 +12,7 @@
   <link rel="preload" as="image" href="images/4P.jpg" />
   <link rel="preload" as="image" href="images/5P.png" />
   <link rel="preload" as="image" href="images/CARTEINFLU.jpg" />
+  <link rel="preload" as="image" href="images/EVENEMENT.png" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <script type="importmap">{"imports":{"three":"https://esm.sh/three@0.160.0"}}</script>
   <style>
@@ -1194,6 +1195,19 @@
       </div>
       </div>
 
+      <div class="svc-card-border" data-idx="6">
+      <div class="svc-step-card">
+        <div class="svc-step-card-bg" style="background-image:url('images/EVENEMENT.png')"></div>
+        <div class="svc-step-card-overlay"></div>
+        <div class="svc-step-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+        <div class="svc-step-body">
+          <span class="svc-step-label">L'événement</span>
+          <span class="svc-step-title">Votre événement, à votre image</span>
+          <span class="svc-step-desc">Vous organisez un événement ? Je crée un site moderne et immersif avec système d'inscription en ligne, billetterie ou formulaire personnalisé. Livré rapidement, tout est possible.</span>
+        </div>
+      </div>
+      </div>
+
     </div>
   </div>
 
@@ -1208,6 +1222,7 @@
       <button class="svc-dot" data-idx="3"></button>
       <button class="svc-dot" data-idx="4"></button>
       <button class="svc-dot" data-idx="5"></button>
+      <button class="svc-dot" data-idx="6"></button>
     </div>
     <button class="svc-carousel-btn" id="svc-next" aria-label="Suivant">
       <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
@@ -1789,7 +1804,7 @@
       dots.forEach((d, i) => d.classList.toggle('active', i === current));
     }
 
-    ['images/1P.avif','images/2P.avif','images/3P.jpg','images/4P.jpg','images/5P.png','images/CARTEINFLU.jpg']
+    ['images/1P.avif','images/2P.avif','images/3P.jpg','images/4P.jpg','images/5P.png','images/CARTEINFLU.jpg','images/EVENEMENT.png']
       .forEach(src => { const i = new Image(); i.src = src; });
 
     goTo(0);
