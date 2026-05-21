@@ -839,10 +839,11 @@
 
       /* Services carousel */
       .svc-header { padding: 0 16px; }
-      .svc-fan-outer { height: 400px; margin-top: 24px; }
-      .svc-fan-stage { perspective: none; align-items: center; justify-content: center; }
-      .svc-step-card { width: calc(100vw - 48px); max-width: 360px; height: 310px; }
-      .svc-card-border { left: 24px; right: 24px; bottom: auto; top: 50%; transform: translateY(-50%) !important; width: calc(100vw - 48px); max-width: 360px; }
+      .svc-fan-outer { height: 420px; margin-top: 24px; overflow: visible; }
+      .svc-fan-stage { perspective: none; position: relative; display: flex; align-items: center; justify-content: center; }
+      .svc-card-border { position: relative !important; left: auto !important; bottom: auto !important; transform: none !important; opacity: 0 !important; display: none; margin: 0; width: calc(100vw - 48px); max-width: 380px; }
+      .svc-card-border.mob-active { display: block; opacity: 1 !important; }
+      .svc-step-card { width: 100%; height: 320px; }
       .svc-step-title { font-size: 1.05rem; }
       .svc-step-desc { font-size: .82rem; line-height: 1.5; }
       .svc-step-body { bottom: 22px; left: 20px; right: 20px; }
@@ -1767,21 +1768,26 @@
         const isActive = off === 0;
         const visible  = abs <= MAX_OFF();
 
-        w.style.opacity       = visible ? '1' : '0';
-        w.style.pointerEvents = visible ? 'auto' : 'none';
-        w.style.zIndex        = String(100 - abs);
-
-        const x     = off * SPACING();
-        const y     = isActive ? -24 : abs * 8;
-        const rotZ  = off * STEP_DEG();
-        const rotX  = isActive ? 0 : 10;
-        const scale = isActive ? 1.1 : 0.85 - abs * 0.04;
-        const z     = -abs * DEPTH_PX();
-
-        w.style.transform = isMobile()
-          ? `translateY(${isActive ? 0 : 40}px) scale(${isActive ? 1 : 0.92}) translateZ(0)`
-          : `translateX(${x}px) translateY(${y}px) scale(${scale}) rotateX(${rotX}deg) rotateZ(${rotZ}deg) translateZ(${z}px)`;
-        w.style.filter = isMobile() ? 'none' : (isActive ? 'brightness(1.15)' : `brightness(${0.65 - abs * 0.1})`);
+        if (isMobile()) {
+          w.style.opacity = '';
+          w.style.pointerEvents = '';
+          w.style.zIndex = '';
+          w.style.transform = '';
+          w.style.filter = '';
+          w.classList.toggle('mob-active', isActive);
+        } else {
+          w.style.opacity       = visible ? '1' : '0';
+          w.style.pointerEvents = visible ? 'auto' : 'none';
+          w.style.zIndex        = String(100 - abs);
+          const x     = off * SPACING();
+          const y     = isActive ? -24 : abs * 8;
+          const rotZ  = off * STEP_DEG();
+          const rotX  = isActive ? 0 : 10;
+          const scale = isActive ? 1.1 : 0.85 - abs * 0.04;
+          const z     = -abs * DEPTH_PX();
+          w.style.transform = `translateX(${x}px) translateY(${y}px) scale(${scale}) rotateX(${rotX}deg) rotateZ(${rotZ}deg) translateZ(${z}px)`;
+          w.style.filter = isActive ? 'brightness(1.15)' : `brightness(${0.65 - abs * 0.1})`;
+        }
 
         const inner = w.querySelector('.svc-step-card');
         if (inner) inner.classList.toggle('active', isActive);
