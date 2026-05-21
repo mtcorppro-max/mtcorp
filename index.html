@@ -492,12 +492,26 @@
       background: linear-gradient(135deg, #080c18, #0d1a2e);
       box-shadow: inset 0 0 0 1px rgba(255,255,255,.35);
       transition: box-shadow .4s ease;
+      --bg-x: 50%; --bg-y: 50%;
     }
     .svc-step-card.active {
       box-shadow: inset 0 0 0 1px rgba(255,255,255,.35),
                   0 0 40px rgba(59,130,246,.5),
                   0 0 80px rgba(59,130,246,.25);
     }
+    .holo-glow {
+      position: absolute; inset: 0; z-index: 4; pointer-events: none;
+      border-radius: inherit;
+      background: radial-gradient(
+        circle at var(--bg-x) var(--bg-y),
+        rgba(147,210,255,.24) 0%,
+        rgba(96,165,250,.10) 38%,
+        transparent 65%
+      );
+      opacity: 0;
+      transition: opacity .35s ease;
+    }
+    .svc-step-card:hover .holo-glow { opacity: 1; }
     .svc-step-card-bg {
       position: absolute; inset: 0;
       background-size: cover; background-position: center top;
@@ -1519,6 +1533,34 @@
     document.querySelectorAll('.swiper-stack').forEach(initSwiper);
   })();
 
+
+  /* ─── HOLOGRAPHIC TILT ─── */
+  if (window.innerWidth >= 768) {
+    document.querySelectorAll('.svc-step-card').forEach(card => {
+      const glow = document.createElement('div');
+      glow.className = 'holo-glow';
+      card.appendChild(glow);
+
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const x = e.clientX - r.left;
+        const y = e.clientY - r.top;
+        const rx = (y - r.height / 2) / 12;
+        const ry = (r.width  / 2 - x) / 12;
+        card.style.setProperty('--bg-x', `${(x / r.width)  * 100}%`);
+        card.style.setProperty('--bg-y', `${(y / r.height) * 100}%`);
+        card.style.transition = 'box-shadow .4s ease';
+        card.style.transform  = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.015)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transition = 'box-shadow .4s ease, transform .55s cubic-bezier(.34,1.5,.64,1)';
+        card.style.transform  = '';
+        card.style.setProperty('--bg-x', '50%');
+        card.style.setProperty('--bg-y', '50%');
+      });
+    });
+  }
 
   /* ─── TYPING EFFECT ─── */
   (function() {
