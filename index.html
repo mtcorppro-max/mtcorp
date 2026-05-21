@@ -6,6 +6,12 @@
   <title>Expert IA — Votre partenaire digital</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="image" href="images/1P.avif" />
+  <link rel="preload" as="image" href="images/2P.avif" />
+  <link rel="preload" as="image" href="images/3P.jpg" />
+  <link rel="preload" as="image" href="images/4P.jpg" />
+  <link rel="preload" as="image" href="images/5P.png" />
+  <link rel="preload" as="image" href="images/CARTEINFLU.jpg" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <script type="importmap">{"imports":{"three":"https://esm.sh/three@0.160.0"}}</script>
   <style>
@@ -1733,6 +1739,9 @@
       });
       dots.forEach((d, i) => d.classList.toggle('active', i === current));
     }
+
+    ['images/1P.avif','images/2P.avif','images/3P.jpg','images/4P.jpg','images/5P.png','images/CARTEINFLU.jpg']
+      .forEach(src => { const i = new Image(); i.src = src; });
 
     goTo(0);
     document.getElementById('svc-prev').addEventListener('click', () => goTo(current - 1));
