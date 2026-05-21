@@ -1639,19 +1639,27 @@
   /* ─── HERO WORD TYPING ─── */
   (function() {
     const el  = document.querySelector('.hero-word');
-    if (!el) return;
+    const hero = document.querySelector('.hero');
+    if (!el || !hero) return;
     const words = ['entreprise', 'idée', 'activité', 'projet', 'vision', 'ambition'];
-    let wi = 0, ci = 0;
+    let wi = 0, ci = 0, active = true;
 
     function type() {
+      if (!active) return;
       const w = words[wi];
       if (ci < w.length) { el.textContent += w[ci++]; setTimeout(type, 90); }
       else setTimeout(erase, 2400);
     }
     function erase() {
+      if (!active) return;
       if (el.textContent.length > 0) { el.textContent = el.textContent.slice(0, -1); setTimeout(erase, 45); }
       else { ci = 0; wi = (wi + 1) % words.length; setTimeout(type, 300); }
     }
+
+    new IntersectionObserver(([e]) => {
+      active = e.isIntersecting;
+    }, { threshold: 0.1 }).observe(hero);
+
     setTimeout(type, 600);
   })();
 
