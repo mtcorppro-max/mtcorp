@@ -461,18 +461,18 @@
     .svc-card-border {
       position: absolute; bottom: 30px;
       left: calc(50% - 322px);
-      border-radius: 20px; padding: 1.5px;
+      border-radius: 20px; padding: 2.5px;
       background: conic-gradient(
         from var(--card-angle),
-        transparent 18%,
-        rgba(59,130,246,.6) 26%,
-        rgba(147,197,253,.95) 33%,
-        rgba(220,235,255,1) 40%,
-        #fff 48%,
-        rgba(220,235,255,1) 56%,
-        rgba(147,197,253,.95) 63%,
-        rgba(59,130,246,.6) 70%,
-        transparent 78%
+        transparent 16%,
+        rgba(147,197,253,.9) 24%,
+        rgba(219,234,254,1) 31%,
+        #fff 38%,
+        #fff 46%,
+        #fff 54%,
+        rgba(219,234,254,1) 61%,
+        rgba(147,197,253,.9) 68%,
+        transparent 76%
       );
       animation: card-rotate-blue 9s linear infinite;
       transform-style: preserve-3d;
@@ -485,6 +485,12 @@
       border-radius: 18px; position: relative; overflow: hidden;
       background: linear-gradient(135deg, #080c18, #0d1a2e);
       box-shadow: inset 0 0 0 1px rgba(255,255,255,.35);
+      transition: box-shadow .4s ease;
+    }
+    .svc-step-card.active {
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.35),
+                  0 0 40px rgba(59,130,246,.5),
+                  0 0 80px rgba(59,130,246,.25);
     }
     .svc-step-card-bg {
       position: absolute; inset: 0;
@@ -804,7 +810,7 @@
     @media (max-width: 768px) {
       section { padding: 70px 24px; }
       #navbar, #navbar.scrolled { padding: 16px 24px; }
-      footer { padding: 36px 24px; }
+      footer { padding: 36px 24px; flex-direction: column; gap: 16px; text-align: center; }
       .stats { padding: 0 24px 80px; }
       .stats-inner { grid-template-columns: 1fr; }
       .stat:not(:last-child)::after { display: none; }
@@ -816,6 +822,34 @@
       .histoire-block.rev .h-img { order: 0; }
       .port-featured { grid-template-columns: 1fr; padding: 40px 30px; }
       .foot-links { gap: 20px; }
+
+      /* Hero */
+      .hero-ctas { flex-direction: column; align-items: center; gap: 12px; }
+      .btn-white, .btn-ghost { width: 100%; max-width: 320px; justify-content: center; }
+
+      /* Histoire */
+      .histoire-hero { grid-template-columns: 1fr; gap: 40px; }
+      .photo-marquee-wrap { height: 360px; }
+      .photo-marquee-item { width: 130px; height: 130px; }
+
+      /* Services carousel */
+      .svc-fan-outer { height: 300px; }
+      .svc-fan-stage { perspective: none; }
+      .svc-step-card { width: 300px; height: 220px; }
+      .svc-card-border { left: calc(50% - 152px); bottom: 20px; }
+      .svc-step-title { font-size: 1rem; }
+      .svc-step-desc { font-size: .78rem; }
+      .svc-step-body { bottom: 18px; left: 18px; right: 18px; }
+      .svc-step-icon { width: 40px; height: 40px; top: 14px; left: 14px; }
+
+      /* Réalisations */
+      .proj-item { grid-template-columns: 1fr; gap: 32px; padding: 40px 0; }
+      .proj-item.reverse { direction: ltr; }
+      .proj-title { font-size: 1.4rem; }
+      .proj-showcase { margin-top: 40px; }
+
+      /* Contact */
+      .contact-inner { grid-template-columns: 1fr; gap: 40px; }
     }
   </style>
 </head>
@@ -1701,12 +1735,13 @@
     const dots     = document.querySelectorAll('#svc-dots .svc-dot');
     if (!stage) return;
 
-    const total      = wrappers.length;
-    const CARD_W     = 640;
-    const SPACING    = Math.round(CARD_W * 0.52); // 333px between card centers
-    const STEP_DEG   = 16;   // fan angle per step
-    const DEPTH_PX   = 160;  // Z depth per step
-    const MAX_OFF    = 2;    // cards visible each side
+    const total    = wrappers.length;
+    const isMobile = () => window.innerWidth < 768;
+    const CARD_W   = () => isMobile() ? 300 : 640;
+    const SPACING  = () => isMobile() ? 0   : Math.round(CARD_W() * 0.52);
+    const STEP_DEG = () => isMobile() ? 0   : 16;
+    const DEPTH_PX = () => isMobile() ? 0   : 160;
+    const MAX_OFF  = () => isMobile() ? 0   : 2;
     let current = 0;
 
     function wrapIdx(n) { return ((n % total) + total) % total; }
@@ -1723,20 +1758,21 @@
         const off = signedOff(i, current);
         const abs = Math.abs(off);
         const isActive = off === 0;
-        const visible  = abs <= MAX_OFF;
+        const visible  = abs <= MAX_OFF();
 
         w.style.opacity       = visible ? '1' : '0';
         w.style.pointerEvents = visible ? 'auto' : 'none';
         w.style.zIndex        = String(100 - abs);
 
-        const x     = off * SPACING;
+        const x     = off * SPACING();
         const y     = isActive ? -24 : abs * 8;
-        const rotZ  = off * STEP_DEG;
+        const rotZ  = off * STEP_DEG();
         const rotX  = isActive ? 0 : 10;
-        const scale = isActive ? 1.04 : 0.9 - abs * 0.03;
-        const z     = -abs * DEPTH_PX;
+        const scale = isActive ? 1.1 : 0.85 - abs * 0.04;
+        const z     = -abs * DEPTH_PX();
 
         w.style.transform = `translateX(${x}px) translateY(${y}px) scale(${scale}) rotateX(${rotX}deg) rotateZ(${rotZ}deg) translateZ(${z}px)`;
+        w.style.filter = isActive ? 'brightness(1.15)' : `brightness(${0.65 - abs * 0.1})`;
 
         const inner = w.querySelector('.svc-step-card');
         if (inner) inner.classList.toggle('active', isActive);
