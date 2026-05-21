@@ -1541,21 +1541,28 @@
       glow.className = 'holo-glow';
       card.appendChild(glow);
 
+      const border = card.parentElement; // .svc-card-border — tilt the whole wrapper so border follows
+      let baseTransform = '';
+
+      card.addEventListener('mouseenter', () => {
+        baseTransform = border.style.transform || '';
+      });
+
       card.addEventListener('mousemove', e => {
         const r = card.getBoundingClientRect();
         const x = e.clientX - r.left;
         const y = e.clientY - r.top;
-        const rx = (y - r.height / 2) / 12;
-        const ry = (r.width  / 2 - x) / 12;
+        const rx = (y - r.height / 2) / 14;
+        const ry = (r.width  / 2 - x) / 14;
         card.style.setProperty('--bg-x', `${(x / r.width)  * 100}%`);
         card.style.setProperty('--bg-y', `${(y / r.height) * 100}%`);
-        card.style.transition = 'box-shadow .4s ease';
-        card.style.transform  = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.015)`;
+        border.style.transition = 'opacity .35s ease';
+        border.style.transform  = `${baseTransform} perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
       });
 
       card.addEventListener('mouseleave', () => {
-        card.style.transition = 'box-shadow .4s ease, transform .55s cubic-bezier(.34,1.5,.64,1)';
-        card.style.transform  = '';
+        border.style.transition = 'transform .55s cubic-bezier(.34,1.5,.64,1), opacity .35s ease';
+        border.style.transform  = baseTransform;
         card.style.setProperty('--bg-x', '50%');
         card.style.setProperty('--bg-y', '50%');
       });
