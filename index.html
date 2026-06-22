@@ -1019,9 +1019,10 @@
   <canvas id="gate-canvas"></canvas>
   <div id="gate-input-phase">
     <img src="images/LOGO SANS FOND.png" alt="MTCORP" style="width:260px;height:260px;object-fit:contain;margin-bottom:0" />
-    <div style="font-size:1rem;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.35);text-transform:uppercase;margin-top:4px">Accès privé</div>
-    <div style="font-size:2rem;font-weight:800;color:#fff;letter-spacing:-.02em;margin-top:2px">Entrez le code</div>
-    <div style="display:flex;flex-direction:column;gap:10px;width:100%;margin-top:4px">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;width:100%;margin-top:-20px">
+    <div style="font-size:1rem;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.35);text-transform:uppercase">Accès privé</div>
+    <div style="font-size:2rem;font-weight:800;color:#fff;letter-spacing:-.02em">Entrez le code</div>
+    <div style="display:flex;flex-direction:column;gap:10px;width:100%;margin-top:6px">
       <input id="gate-access-input" type="password" placeholder="Code d'accès" autocomplete="off" />
       <div id="gate-error"></div>
       <button id="gate-access-btn" onclick="checkCode()" type="button">
@@ -1030,6 +1031,7 @@
           <span class="gate-btn-spark">✦</span>
         </span>
       </button>
+    </div>
     </div>
   </div>
 
