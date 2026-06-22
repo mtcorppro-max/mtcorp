@@ -1295,6 +1295,22 @@
       </div>
     </div>
 
+    <!-- Projet 6 — Yonne+ -->
+    <div class="proj-item reverse rv">
+      <div>
+        <span class="proj-tag">Projet 06 — Mon projet</span>
+        <h3 class="proj-title">Yonne+</h3>
+        <p class="proj-desc">La carte citoyenne du département de l'Yonne. Événements, marchés, signalements, entraide, animaux perdus — tout sur une seule carte, sans inscription, sans algorithme. Mise à jour automatique chaque nuit, 27 marchés toujours à la bonne date, météo en temps réel.</p>
+        <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start">
+          <a href="https://pieauxerre.vercel.app/" target="_blank" rel="noreferrer" style="font-size:.82rem;font-weight:600;color:#2563eb;text-decoration:none;opacity:.8;transition:opacity .2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.8'">🔗 pieauxerre.vercel.app</a>
+          <button class="proj-link" onclick="document.getElementById('modal-yonneplus').classList.add('open');document.getElementById('modal-backdrop').classList.add('open');document.body.style.overflow='hidden'">En savoir plus →</button>
+        </div>
+      </div>
+      <div class="proj-media">
+        <img src="images/Yonne+.png" alt="Yonne+" />
+      </div>
+    </div>
+
     <!-- Projet 5 — SoignantCoco -->
     <div class="proj-item rv">
       <div>
@@ -2102,6 +2118,53 @@ if (canvas) {
       <li>Emails transactionnels via Resend depuis noreply@pointgagnant.fr</li>
       <li>Notifications in-app : invitations, résultats, revanches, messages</li>
     </ul>
+  </div>
+</div>
+
+<!-- ═══ MODAL YONNE+ ═══ -->
+<div class="proj-modal" id="modal-yonneplus">
+  <button class="proj-modal-close" onclick="document.getElementById('modal-yonneplus').classList.remove('open');document.getElementById('modal-backdrop').classList.remove('open');document.body.style.overflow=''">✕</button>
+
+  <h2>Yonne+</h2>
+  <p class="proj-modal-sub">Mon projet — UX/UI, développement, automatisations, déploiement. Prototype fonctionnel · juin 2026.</p>
+  <div style="display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap">
+    <span style="font-size:.7rem;font-weight:700;padding:4px 12px;border-radius:100px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:#16a34a">✦ PWA disponible</span>
+    <span style="font-size:.7rem;font-weight:700;padding:4px 12px;border-radius:100px;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.25);color:#2563eb">🗺️ Carte citoyenne</span>
+    <span style="font-size:.7rem;font-weight:700;padding:4px 12px;border-radius:100px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.3);color:#d97706">🔬 Prototype fonctionnel</span>
+  </div>
+
+  <div class="proj-modal-tech">
+    <span class="proj-tech-badge">Next.js</span>
+    <span class="proj-tech-badge">Supabase</span>
+    <span class="proj-tech-badge">Leaflet</span>
+    <span class="proj-tech-badge">Cron jobs</span>
+    <span class="proj-tech-badge">API Météo</span>
+    <span class="proj-tech-badge">Vercel</span>
+    <span class="proj-tech-badge">Claude Code</span>
+  </div>
+
+  <div class="proj-modal-pitch">
+    Dans l'Yonne, l'information locale est éparpillée entre des dizaines de pages Facebook, des sites de mairie rarement mis à jour et des groupes WhatsApp de quartier. Un vide-grenier passe inaperçu, un chien perdu ne trouve pas son propriétaire, un commerçant ne peut pas se faire connaître sans payer une plateforme. Yonne+ regroupe tout ça sur une seule carte — sans inscription, sans algorithme, sans publicité. N'importe quel habitant peut consulter, contribuer et se faire entendre en quelques secondes depuis son téléphone.
+  </div>
+
+  <div class="proj-modal-section">
+    <h3>Les 6 rubriques</h3>
+    <p style="font-size:.9rem;line-height:1.7;color:var(--fg-muted,#64748b)">Sorties regroupe les événements, concerts, expos, matchs et brocantes du département avec des filtres par type et par moment. Marchés liste les 27 marchés récurrents de l'Yonne, toujours à la bonne date. Signalements & Idées permet de reporter un problème ou proposer une amélioration — les habitants votent et les meilleures idées remontent. Entraide couvre les petits services de voisinage : tondeuse, déménagement, covoiturage. Perdus & Trouvés géolocalise les animaux et objets avec un bouton « Résolu » qui fait disparaître l'annonce une fois l'affaire réglée. Proposer offre un formulaire unique pour tout publier — placement sur carte, photo, description — sans compte requis.</p>
+  </div>
+
+  <div class="proj-modal-section">
+    <h3>Automatisations</h3>
+    <p style="font-size:.9rem;line-height:1.7;color:var(--fg-muted,#64748b)">Chaque nuit, un robot parcourt les annonces de sorties publiées dans le département et les importe automatiquement sur la carte. Les événements passés disparaissent d'eux-mêmes. Les marchés hebdomadaires et mensuels se mettent à jour sans intervention : une fois la date passée, le système calcule seul la prochaine occurrence et repositionne le marqueur. Les 27 marchés de l'Yonne restent à jour en permanence. La météo du département s'affiche en temps réel sur l'accueil et sur la carte.</p>
+  </div>
+
+  <div class="proj-modal-section">
+    <h3>Ce que ça change concrètement</h3>
+    <p style="font-size:.9rem;line-height:1.7;color:var(--fg-muted,#64748b)">Un habitant de Sens qui cherche quoi faire ce week-end ouvre l'app et voit tous les événements sur la carte — sans chercher sur cinq sites. Un commerçant d'Auxerre poste une promo en 30 secondes, elle apparaît sur la carte des habitants du secteur puis disparaît automatiquement à l'heure prévue. Un signalement de nid-de-poule devient une donnée structurée, géolocalisée, votée par les voisins — plus un message perdu dans un groupe Facebook.</p>
+  </div>
+
+  <div class="proj-modal-section">
+    <h3>État du projet</h3>
+    <p style="font-size:.9rem;line-height:1.7;color:var(--fg-muted,#64748b)">Prototype fonctionnel et déployé, accessible depuis n'importe quel téléphone sans installation. Le parcours citoyen complet est couvert, de la consultation à la contribution. Prochaine étape envisagée : notifications push pour les événements du jour à proximité, et ouverture aux mairies pour publier directement leurs annonces officielles sur la carte.</p>
   </div>
 </div>
 
