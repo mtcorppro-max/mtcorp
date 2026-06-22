@@ -1295,6 +1295,22 @@
       </div>
     </div>
 
+    <!-- Projet 5 — SoignantCoco -->
+    <div class="proj-item rv">
+      <div>
+        <span class="proj-tag">Projet 05 — Mon projet</span>
+        <h3 class="proj-title">SoignantCoco</h3>
+        <p class="proj-desc">Un prototype de télésurveillance post-opératoire à domicile pour les patients à risque de septicémie. Deux espaces distincts — patient et équipe médicale — reliés par la surveillance des constantes et un système d'alertes automatiques. Conçu et développé de A à Z.</p>
+        <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start">
+          <a href="https://soignantcoco.vercel.app/" target="_blank" rel="noreferrer" style="font-size:.82rem;font-weight:600;color:#2563eb;text-decoration:none;opacity:.8;transition:opacity .2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.8'">🔗 soignantcoco.vercel.app</a>
+          <button class="proj-link" onclick="document.getElementById('modal-soignantcoco').classList.add('open');document.getElementById('modal-backdrop').classList.add('open');document.body.style.overflow='hidden'">En savoir plus →</button>
+        </div>
+      </div>
+      <div class="proj-media">
+        <img src="images/soignantcoco.png" alt="SoignantCoco" />
+      </div>
+    </div>
+
     <!-- Projet 4 — Noctia -->
     <div class="proj-item reverse rv">
       <div>
@@ -2086,6 +2102,52 @@ if (canvas) {
       <li>Emails transactionnels via Resend depuis noreply@pointgagnant.fr</li>
       <li>Notifications in-app : invitations, résultats, revanches, messages</li>
     </ul>
+  </div>
+</div>
+
+<!-- ═══ MODAL SOIGNANTCOCO ═══ -->
+<div class="proj-modal" id="modal-soignantcoco">
+  <button class="proj-modal-close" onclick="document.getElementById('modal-soignantcoco').classList.remove('open');document.getElementById('modal-backdrop').classList.remove('open');document.body.style.overflow=''">✕</button>
+
+  <h2>SoignantCoco</h2>
+  <p class="proj-modal-sub">Mon projet — UX/UI, développement, sécurité, espace coordinatrice. Prototype fonctionnel conçu et développé de A à Z · juin 2026.</p>
+  <div style="display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap">
+    <span style="font-size:.7rem;font-weight:700;padding:4px 12px;border-radius:100px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:#16a34a">✦ PWA disponible</span>
+    <span style="font-size:.7rem;font-weight:700;padding:4px 12px;border-radius:100px;background:rgba(150,20,70,.08);border:1px solid rgba(150,20,70,.25);color:#961446">🏥 Médical</span>
+    <span style="font-size:.7rem;font-weight:700;padding:4px 12px;border-radius:100px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.3);color:#d97706">🔬 Prototype fonctionnel</span>
+  </div>
+
+  <div class="proj-modal-tech">
+    <span class="proj-tech-badge">Next.js</span>
+    <span class="proj-tech-badge">Supabase</span>
+    <span class="proj-tech-badge">Row Level Security</span>
+    <span class="proj-tech-badge">SMS Alertes</span>
+    <span class="proj-tech-badge">Vercel</span>
+    <span class="proj-tech-badge">Claude Code</span>
+  </div>
+
+  <div class="proj-modal-pitch">
+    SoignantCoco accompagne les patients récemment opérés du système digestif — à risque de septicémie — dans leur rétablissement à domicile. Deux espaces distincts, un pour le patient, un pour l'équipe médicale, reliés par la surveillance des constantes et un système d'alertes automatiques. Connexion patient par code unique sans mot de passe, identité visuelle soignée, accès web et mobile sans installation.
+  </div>
+
+  <div class="proj-modal-section">
+    <h3>Espace patient</h3>
+    <p style="font-size:.9rem;line-height:1.7;color:var(--fg-muted,#64748b)">Six onglets guident le patient au quotidien. L'accueil affiche un message personnalisé, un rappel de saisie, une bannière météo contextuelle (forte chaleur → s'hydrater) et les dernières constantes horodatées. L'onglet Mesure permet la saisie rapide de la température, tension, SpO₂ et poids. Le Suivi présente l'historique en courbes et en tableau avec la ligne de seuil en rouge. Le Chat ouvre une messagerie directe avec l'infirmière coordinatrice. L'onglet Photos permet d'envoyer des clichés de cicatrice depuis l'appareil photo ou la galerie, avec un historique horodaté. Les Conseils livrent chaque jour des recommandations météo, diététiques et de rétablissement.</p>
+  </div>
+
+  <div class="proj-modal-section">
+    <h3>Espace coordinatrice — cockpit médical</h3>
+    <p style="font-size:.9rem;line-height:1.7;color:var(--fg-muted,#64748b)">Quatre onglets pour l'équipe. Le tableau de bord liste tous les patients avec leur statut et le nombre d'alertes actives. La fiche patient détaille les constantes, un graphique par mesure avec ligne de seuil rouge et infobulle au survol, et des champs seuil min/max ajustables. Le centre d'alertes liste chaque dépassement avec patient, constante, valeur et horodatage, et propose trois actions : Acquitter, « J'ai prévenu l'hôpital » (escalade tracée), Résoudre. La messagerie centralise les fils de discussion avec chaque patient. L'onglet Nouveau patient génère automatiquement le code unique à remettre au patient à sa sortie.</p>
+  </div>
+
+  <div class="proj-modal-section">
+    <h3>Sécurité & confidentialité</h3>
+    <p style="font-size:.9rem;line-height:1.7;color:var(--fg-muted,#64748b)">Les règles d'accès sont appliquées directement en base de données via Row Level Security sur l'ensemble des tables. Chaque rôle (coordinatrice, chirurgien, délégué médical) accède uniquement aux données qui le concernent. Un patient ne voit que son propre dossier, un professionnel ne voit que les patients de son prestataire. La clé serveur reste côté serveur uniquement. Les alertes SMS fonctionnent avec escalade automatique vers un numéro de backup si le premier ne répond pas.</p>
+  </div>
+
+  <div class="proj-modal-section">
+    <h3>État du projet</h3>
+    <p style="font-size:.9rem;line-height:1.7;color:var(--fg-muted,#64748b)">Prototype fonctionnel couvrant le parcours complet côté patient comme côté coordinatrice : saisie, alerte automatique sur seuil, acquittement, escalade tracée, messagerie, photos et conseils. Pour une mise en production : hébergement certifié HDS et cadrage du statut dispositif médical avec le prestataire (porté par le client en tant que fabricant).</p>
   </div>
 </div>
 
