@@ -867,6 +867,42 @@
 </head>
 <body>
 
+<!-- ═══ CODE GATE ═══ -->
+<div id="code-gate" style="position:fixed;inset:0;z-index:99999;background:#06090f;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px;padding:24px">
+  <div style="font-size:1.1rem;font-weight:700;letter-spacing:.08em;color:rgba(255,255,255,.5);text-transform:uppercase">Accès privé</div>
+  <div style="font-size:2rem;font-weight:800;color:#fff;letter-spacing:-.02em">Entrez le code</div>
+  <div style="display:flex;flex-direction:column;gap:12px;width:100%;max-width:320px">
+    <input id="gate-input" type="password" placeholder="Code d'accès" autocomplete="off" style="width:100%;padding:14px 18px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#fff;font-size:1rem;font-family:inherit;outline:none;text-align:center;letter-spacing:.1em" />
+    <div id="gate-error" style="color:#ef4444;font-size:.82rem;text-align:center;min-height:18px"></div>
+    <button onclick="checkCode()" style="width:100%;padding:14px;border-radius:12px;background:#2563eb;color:#fff;font-weight:700;font-size:1rem;border:none;cursor:pointer;font-family:inherit">Accéder →</button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    if (localStorage.getItem('mtcorp_access') === 'MTCORP89') {
+      document.getElementById('code-gate').style.display = 'none';
+      document.body.style.overflow = '';
+    } else {
+      document.body.style.overflow = 'hidden';
+    }
+  })();
+  function checkCode() {
+    var val = document.getElementById('gate-input').value.trim().toUpperCase();
+    if (val === 'MTCORP89') {
+      localStorage.setItem('mtcorp_access', 'MTCORP89');
+      document.getElementById('code-gate').style.display = 'none';
+      document.body.style.overflow = '';
+    } else {
+      document.getElementById('gate-error').textContent = 'Code incorrect, réessayez.';
+      document.getElementById('gate-input').value = '';
+    }
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') checkCode();
+  });
+</script>
+
 <!-- ═══ NAVBAR ═══ -->
 <nav id="navbar">
   <a href="#" class="nav-logo">
