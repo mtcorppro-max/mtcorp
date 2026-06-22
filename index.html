@@ -1260,7 +1260,7 @@
       <div>
         <span class="proj-tag">Projet 01 — Mon projet</span>
         <h3 class="proj-title">PointGagnant</h3>
-        <p class="proj-desc">Une application complète qui amène le système de rang des jeux vidéo dans les clubs de padel. Bronze, Argent, Or, Platine, Diamant. Un ELO qui évolue à chaque match. Avec un matchmaking par localisation GPS pour trouver des adversaires proches de soi, même sans partenaire.</p>
+        <p class="proj-desc">Une application complète qui amène le système de rang des jeux vidéo dans les clubs de padel et de tennis. Bronze, Argent, Or, Platine, Diamant. Un ELO qui évolue à chaque match. Avec un matchmaking par localisation GPS pour trouver des adversaires proches de soi, même sans partenaire.</p>
         <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start">
           <a href="https://www.pointgagnant.fr" target="_blank" rel="noreferrer" style="font-size:.82rem;font-weight:600;color:#2563eb;text-decoration:none;opacity:.8;transition:opacity .2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.8'">🔗 www.pointgagnant.fr</a>
           <button class="proj-link" onclick="document.getElementById('modal-pointgagnant').classList.add('open');document.getElementById('modal-backdrop').classList.add('open');document.body.style.overflow='hidden'">En savoir plus →</button>
@@ -1292,6 +1292,22 @@
       </div>
       <div class="proj-media">
         <img src="images/TENNISMG.png" alt="Club Tennis & Padel" />
+      </div>
+    </div>
+
+    <!-- Projet 4 — Noctia -->
+    <div class="proj-item reverse rv">
+      <div>
+        <span class="proj-tag">Projet 04 — Mon projet</span>
+        <h3 class="proj-title">Noctia</h3>
+        <p class="proj-desc">Une PWA complète de suivi du sommeil et de coaching anti-insomnie, développée en partenariat avec un expert spécialiste des troubles du sommeil. Journal quotidien, exercices guidés, modules TCC-I, bilan hebdomadaire intelligent, espace admin dédié et abonnements Stripe. Conçu et développé de A à Z.</p>
+        <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start">
+          <a href="https://sommeil-eight.vercel.app/" target="_blank" rel="noreferrer" style="font-size:.82rem;font-weight:600;color:#2563eb;text-decoration:none;opacity:.8;transition:opacity .2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.8'">🔗 sommeil-eight.vercel.app</a>
+          <button class="proj-link" onclick="document.getElementById('modal-noctia').classList.add('open');document.getElementById('modal-backdrop').classList.add('open');document.body.style.overflow='hidden'">En savoir plus →</button>
+        </div>
+      </div>
+      <div class="proj-media">
+        <img src="images/Noctia.png" alt="Noctia" />
       </div>
     </div>
 
@@ -1990,7 +2006,7 @@ if (canvas) {
 </script>
 
 <!-- ═══ MODAL PADELRANK ═══ -->
-<div class="proj-modal-backdrop" id="modal-backdrop" onclick="document.getElementById('modal-pointgagnant').classList.remove('open');this.classList.remove('open');document.body.style.overflow=''"></div>
+<div class="proj-modal-backdrop" id="modal-backdrop" onclick="document.querySelectorAll('.proj-modal').forEach(m=>m.classList.remove('open'));this.classList.remove('open');document.body.style.overflow=''"></div>
 
 <div class="proj-modal" id="modal-pointgagnant">
   <button class="proj-modal-close" onclick="document.getElementById('modal-pointgagnant').classList.remove('open');document.getElementById('modal-backdrop').classList.remove('open');document.body.style.overflow=''">✕</button>
@@ -2015,7 +2031,7 @@ if (canvas) {
   </div>
 
   <div class="proj-modal-pitch">
-    Le padel est le sport qui monte le plus vite en Europe. Mais les clubs font face à un problème : les joueurs viennent, jouent, et repartent. Il n'y a rien qui les retient vraiment. PointGagnant résout ça avec un mécanisme que les jeux vidéo ont prouvé depuis 20 ans — <strong>le rang</strong>. Bronze, Argent, Or, Platine, Diamant. Un score ELO qui évolue à chaque match joué, même en match entre amis. Des joueurs plus engagés réservent plus de terrains, consomment au bar, achètent des cours. Tu transformes des clients occasionnels en une vraie communauté compétitive.
+    Le padel et le tennis sont parmi les sports qui montent le plus vite en Europe. Mais les clubs font face à un problème : les joueurs viennent, jouent, et repartent. Il n'y a rien qui les retient vraiment. PointGagnant résout ça avec un mécanisme que les jeux vidéo ont prouvé depuis 20 ans — <strong>le rang</strong>. Bronze, Argent, Or, Platine, Diamant. Un score ELO qui évolue à chaque match joué, même en match entre amis. Des joueurs plus engagés réservent plus de terrains, consomment au bar, achètent des cours. Tu transformes des clients occasionnels en une vraie communauté compétitive.
   </div>
 
   <div class="proj-modal-section">
@@ -2054,7 +2070,7 @@ if (canvas) {
   <div class="proj-modal-section">
     <h3>Carte des terrains</h3>
     <ul class="proj-feature-list">
-      <li>Tous les terrains de padel recensés sur une carte interactive (Jawg Maps)</li>
+      <li>Tous les terrains de padel et de tennis recensés sur une carte interactive (Jawg Maps)</li>
       <li>Sur chaque terrain : son "Roi" — le joueur avec le plus de victoires sur ce court</li>
       <li>Bouton "S'y rendre" → redirection directe vers Plans ou Google Maps selon l'appareil</li>
     </ul>
@@ -2070,6 +2086,52 @@ if (canvas) {
       <li>Emails transactionnels via Resend depuis noreply@pointgagnant.fr</li>
       <li>Notifications in-app : invitations, résultats, revanches, messages</li>
     </ul>
+  </div>
+</div>
+
+<!-- ═══ MODAL NOCTIA ═══ -->
+<div class="proj-modal" id="modal-noctia">
+  <button class="proj-modal-close" onclick="document.getElementById('modal-noctia').classList.remove('open');document.getElementById('modal-backdrop').classList.remove('open');document.body.style.overflow=''">✕</button>
+
+  <h2>Noctia</h2>
+  <p class="proj-modal-sub">Mon projet — branding, UX/UI, développement, espace admin, monétisation. Conçu et développé de A à Z en partenariat avec un expert spécialiste des troubles du sommeil.</p>
+  <div style="display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap">
+    <span style="font-size:.7rem;font-weight:700;padding:4px 12px;border-radius:100px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:#16a34a">✦ PWA disponible</span>
+    <span style="font-size:.7rem;font-weight:700;padding:4px 12px;border-radius:100px;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.25);color:#2563eb">💤 Suivi du sommeil</span>
+    <span style="font-size:.7rem;font-weight:700;padding:4px 12px;border-radius:100px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.3);color:#d97706">🚀 En lancement</span>
+  </div>
+
+  <div class="proj-modal-tech">
+    <span class="proj-tech-badge">Next.js</span>
+    <span class="proj-tech-badge">Supabase</span>
+    <span class="proj-tech-badge">Stripe</span>
+    <span class="proj-tech-badge">Calendly</span>
+    <span class="proj-tech-badge">Vercel</span>
+    <span class="proj-tech-badge">Claude Code</span>
+  </div>
+
+  <div class="proj-modal-pitch">
+    Noctia est une application de suivi du sommeil et de coaching anti-insomnie, développée seul de A à Z en partenariat avec un expert spécialiste des troubles du sommeil. Identité de marque, UX/UI, développement front et back, espace admin dédié, système de paiement — rien n'a été sous-traité. Un produit complet, pensé pour transformer une consultation ponctuelle en un suivi continu et structuré.
+  </div>
+
+  <div class="proj-modal-section">
+    <h3>Application utilisateur</h3>
+    <p style="font-size:.9rem;line-height:1.7;color:var(--fg-muted,#64748b)">Le journal quotidien enregistre les heures de coucher et de réveil, les réveils nocturnes, la qualité du sommeil et le niveau de stress. Une bibliothèque d'exercices guidés propose des techniques de respiration, de relaxation musculaire progressive et des sons. Quinze modules éducatifs TCC-I couvrent les fondamentaux et les concepts clés du sommeil. Le bilan hebdomadaire génère un score sur 100, une analyse par dimension et des conseils personnalisés. La communauté permet des échanges entre utilisateurs et la diffusion de vidéos d'expert.</p>
+  </div>
+
+  <div class="proj-modal-section">
+    <h3>Prise de rendez-vous intelligente</h3>
+    <p style="font-size:.9rem;line-height:1.7;color:var(--fg-muted,#64748b)">Avant chaque appel, un résumé automatique du profil patient est transmis à l'expert — historique des nuits, données clés, abonnement — complété par quelques questions ciblées sur Calendly. Le rendez-vous est opérationnel dès la première minute, sans collecte d'information redondante.</p>
+  </div>
+
+  <div class="proj-modal-section">
+    <h3>Monétisation</h3>
+    <p style="font-size:.9rem;line-height:1.7;color:var(--fg-muted,#64748b)">Un système d'abonnement à 3 paliers, intégré via Stripe, gère les paiements et les niveaux d'accès. Chaque formule débloque des fonctionnalités différentes, du suivi de base au coaching complet avec accès prioritaire à l'expert.</p>
+  </div>
+
+  <div class="proj-modal-section">
+    <h3>Espace admin (réservé à l'expert)</h3>
+    <p style="font-size:.9rem;line-height:1.7;color:var(--fg-muted,#64748b)">Un dashboard exclusif donne à l'expert une vue complète sur l'ensemble des profils utilisateurs : historique des nuits, données de sommeil, abonnement souscrit. Il peut ajouter des vidéos directement depuis son espace, sans intervention technique. La vue est pensée pour prioriser le suivi selon le profil et le niveau d'abonnement de chaque utilisateur.</p>
   </div>
 </div>
 
