@@ -966,12 +966,49 @@
     text-align: center; letter-spacing: .12em; transition: border-color .2s, background .2s;
   }
   #gate-access-input:focus { border-color: rgba(37,99,235,.6); background: rgba(37,99,235,.08); }
-  #gate-access-btn {
-    width: 100%; padding: 14px; border-radius: 12px;
-    background: #2563eb; color: #fff; font-weight: 700; font-size: 1rem;
-    border: none; cursor: pointer; font-family: inherit; transition: background .2s;
+  /* liquid button */
+  .gate-liq-outer { position: relative; width: 100%; }
+  .gate-liq-glow {
+    position: absolute; width: 115%; height: 140%;
+    top: 8%; left: 50%; transform: translateX(-50%);
+    filter: blur(20px); opacity: .65; border-radius: 12px; z-index: 0;
+    background: linear-gradient(135deg,#1d6ffb,#74e1ff,#1d4ed8);
+    animation: gateLiqPulse 3s ease-in-out infinite alternate;
+    pointer-events: none;
   }
-  #gate-access-btn:hover { background: #1d4ed8; }
+  @keyframes gateLiqPulse { from{opacity:.45} to{opacity:.75} }
+  .gate-liq-dark-under {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-40%);
+    width: 92%; height: 115%; border-radius: 12px;
+    background: #010128; filter: blur(7px); z-index: 1; pointer-events: none;
+  }
+  #gate-access-btn {
+    position: relative; z-index: 2;
+    width: 100%; height: 54px; border-radius: 12px;
+    border: none; background: transparent;
+    cursor: pointer; font-family: inherit; overflow: hidden; display: block; padding: 0;
+  }
+  .gate-liq-black { position: absolute; inset: 0; border-radius: 12px; background: #00001e; }
+  .gate-liq-layer {
+    position: absolute; overflow: hidden; pointer-events: none;
+    mix-blend-mode: difference;
+  }
+  .gate-liq-layer svg { display: block; width: 100%; height: 100%; }
+  .gate-liq-l0 { inset: 0; }
+  .gate-liq-l1 { inset: 0; transform: rotate(165deg); transform-origin: 50% 50%; }
+  .gate-liq-l2 { inset: -3%; transform: rotate(-12deg); transform-origin: 50% 50%; }
+  .gate-liq-l3 { inset: 0; transform: rotate(180deg); transform-origin: 50% 50%; mix-blend-mode: hard-light; }
+  .gate-liq-center-dark {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-40%);
+    width: 71%; height: 43%; border-radius: 12px; filter: blur(15px); background: #000055;
+  }
+  .gate-liq-text {
+    position: absolute; inset: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 700; font-size: 1rem; letter-spacing: .02em;
+    transition: color .2s;
+  }
+  #gate-access-btn:hover .gate-liq-text { color: #c4d8ff; }
   #gate-error { color: #ef4444; font-size: .82rem; text-align: center; min-height: 18px; }
 </style>
 
@@ -983,7 +1020,39 @@
     <div style="display:flex;flex-direction:column;gap:12px;width:100%">
       <input id="gate-access-input" type="password" placeholder="Code d'accès" autocomplete="off" />
       <div id="gate-error"></div>
-      <button id="gate-access-btn" onclick="checkCode()">Accéder →</button>
+      <div class="gate-liq-outer">
+        <div class="gate-liq-glow"></div>
+        <div class="gate-liq-dark-under"></div>
+        <button id="gate-access-btn" onclick="checkCode()" type="button">
+          <span class="gate-liq-black"></span>
+          <div class="gate-liq-layer gate-liq-l0">
+            <svg id="glsv0" viewBox="0 0 320 54" xmlns="http://www.w3.org/2000/svg">
+              <rect width="320" height="54" rx="12" fill="url(#glg0)"/>
+              <defs><radialGradient id="glg0" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(160 27) rotate(-29) scale(200 100)"></radialGradient></defs>
+            </svg>
+          </div>
+          <div class="gate-liq-layer gate-liq-l1">
+            <svg id="glsv1" viewBox="0 0 320 54" xmlns="http://www.w3.org/2000/svg">
+              <rect width="320" height="54" rx="12" fill="url(#glg1)"/>
+              <defs><radialGradient id="glg1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(63 41) rotate(-65) scale(155 75)"></radialGradient></defs>
+            </svg>
+          </div>
+          <div class="gate-liq-layer gate-liq-l2">
+            <svg id="glsv2" viewBox="0 0 320 54" xmlns="http://www.w3.org/2000/svg">
+              <rect width="320" height="54" rx="12" fill="url(#glg2)"/>
+              <defs><radialGradient id="glg2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(132 34) rotate(-42) scale(275 130)"></radialGradient></defs>
+            </svg>
+          </div>
+          <div class="gate-liq-layer gate-liq-l3">
+            <svg id="glsv3" viewBox="0 0 320 54" xmlns="http://www.w3.org/2000/svg">
+              <rect width="320" height="54" rx="12" fill="url(#glg3)"/>
+              <defs><radialGradient id="glg3" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(250 27) rotate(-154) scale(285 135)"></radialGradient></defs>
+            </svg>
+          </div>
+          <span class="gate-liq-center-dark"></span>
+          <span class="gate-liq-text">Accéder →</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -1057,6 +1126,61 @@
     });
     wrap.appendChild(el);
   }
+
+  function initLiquidBtn() {
+    var STOPS = [
+      [0,     '#ffffff'],[0.19,  '#1d6ffb'],[0.26,  '#5a9df8'],
+      [0.329, '#fcfcfe'],[0.329, '#f9f9fd'],[0.330, '#ffffff'],
+      [0.44,  '#74e1ff'],[0.54,  '#1d6ffb'],[0.63,  '#ffffff'],
+      [0.73,  '#0017e9'],[0.82,  '#2563eb'],[0.84,  '#60a5fa'],
+      [0.91,  '#ffffff'],[1,     '#1d4ed8'],
+    ];
+    var TRANSFORMS = [
+      {tx:160,ty:27, a:-29,  sx:200,sy:100},
+      {tx:63, ty:41, a:-65,  sx:155,sy:75 },
+      {tx:132,ty:34, a:-42,  sx:275,sy:130},
+      {tx:250,ty:42, a:-154, sx:285,sy:135},
+      {tx:132,ty:34, a:-42,  sx:275,sy:130},
+      {tx:63, ty:41, a:-65,  sx:155,sy:75 },
+      {tx:160,ty:27, a:-29,  sx:200,sy:100},
+    ];
+    var IDS = ['glg0','glg1','glg2','glg3'];
+    var OFFSETS = [0, 1.5, 3, 4.5];
+    var NS = 'http://www.w3.org/2000/svg';
+    IDS.forEach(function(id) {
+      var g = document.getElementById(id); if (!g) return;
+      STOPS.forEach(function(s) {
+        var el = document.createElementNS(NS,'stop');
+        el.setAttribute('offset', s[0]);
+        el.setAttribute('stop-color', s[1]);
+        g.appendChild(el);
+      });
+    });
+    function lerp(a,b,t){return a+(b-a)*t;}
+    function tf(i0,t) {
+      var a=TRANSFORMS[i0%TRANSFORMS.length], b=TRANSFORMS[(i0+1)%TRANSFORMS.length];
+      return 'translate('+lerp(a.tx,b.tx,t)+' '+lerp(a.ty,b.ty,t)+') rotate('+lerp(a.a,b.a,t)+') scale('+lerp(a.sx,b.sx,t)+' '+lerp(a.sy,b.sy,t)+')';
+    }
+    var DUR = 10000, liqActive = true, liqStart = null;
+    var N = TRANSFORMS.length - 1;
+    document.getElementById('code-gate').addEventListener('transitionend', function() {
+      if (this.classList.contains('fade-out')) liqActive = false;
+    });
+    (function liqTick(ts) {
+      if (!liqActive) return;
+      if (!liqStart) liqStart = ts;
+      var pos = ((ts - liqStart) % DUR) / DUR * N;
+      var i0 = Math.floor(pos), t = pos - i0;
+      IDS.forEach(function(id, idx) {
+        var g = document.getElementById(id); if (!g) return;
+        var adjPos = (pos + OFFSETS[idx]) % N;
+        var ai = Math.floor(adjPos);
+        g.setAttribute('gradientTransform', tf(ai, adjPos - ai));
+      });
+      requestAnimationFrame(liqTick);
+    })();
+  }
+  initLiquidBtn();
 
   function startLoader() {
     document.getElementById('gate-input-phase').classList.add('hidden');
