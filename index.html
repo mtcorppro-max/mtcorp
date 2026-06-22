@@ -1075,17 +1075,11 @@
     { at: 100, label: 'Bienvenue'      },
   ];
 
-  if (localStorage.getItem('mtcorp_access') === CORRECT) {
-    document.getElementById('code-gate').style.display = 'none';
-    document.body.style.overflow = '';
-    return;
-  }
   document.body.style.overflow = 'hidden';
 
   function checkCode() {
     var val = document.getElementById('gate-access-input').value.trim().toUpperCase();
     if (val === CORRECT) {
-      localStorage.setItem('mtcorp_access', CORRECT);
       startLoader();
     } else {
       document.getElementById('gate-error').textContent = 'Code incorrect, réessayez.';
@@ -1220,7 +1214,7 @@
 import * as THREE from 'three';
 (function() {
   const canvas = document.getElementById('gate-canvas');
-  if (!canvas || localStorage.getItem('mtcorp_access') === 'MTCORP89') return;
+  if (!canvas) return;
   const SPEED = 0.5, PLANE = 256, CAM_Z = 125;
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true });
   renderer.setClearColor(0x000000, 0);
