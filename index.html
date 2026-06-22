@@ -868,39 +868,220 @@
 <body>
 
 <!-- ═══ CODE GATE ═══ -->
-<div id="code-gate" style="position:fixed;inset:0;z-index:99999;background:#06090f;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px;padding:24px">
-  <div style="font-size:1.1rem;font-weight:700;letter-spacing:.08em;color:rgba(255,255,255,.5);text-transform:uppercase">Accès privé</div>
-  <div style="font-size:2rem;font-weight:800;color:#fff;letter-spacing:-.02em">Entrez le code</div>
-  <div style="display:flex;flex-direction:column;gap:12px;width:100%;max-width:320px">
-    <input id="gate-input" type="password" placeholder="Code d'accès" autocomplete="off" style="width:100%;padding:14px 18px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#fff;font-size:1rem;font-family:inherit;outline:none;text-align:center;letter-spacing:.1em" />
-    <div id="gate-error" style="color:#ef4444;font-size:.82rem;text-align:center;min-height:18px"></div>
-    <button onclick="checkCode()" style="width:100%;padding:14px;border-radius:12px;background:#2563eb;color:#fff;font-weight:700;font-size:1rem;border:none;cursor:pointer;font-family:inherit">Accéder →</button>
+<style>
+  #code-gate {
+    position: fixed; inset: 0; z-index: 99999;
+    background: #06090f;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; padding: 24px;
+    transition: opacity .7s ease;
+  }
+  #code-gate.fade-out { opacity: 0; pointer-events: none; }
+
+  #gate-input-phase {
+    display: flex; flex-direction: column; align-items: center; gap: 24px;
+    width: 100%; max-width: 320px;
+    transition: opacity .35s ease, transform .35s ease;
+  }
+  #gate-input-phase.hidden { opacity: 0; transform: translateY(-14px); pointer-events: none; }
+
+  #gate-loader-phase {
+    position: absolute;
+    display: flex; flex-direction: column; align-items: center; gap: 36px;
+    width: min(400px, calc(100vw - 48px));
+    opacity: 0; pointer-events: none;
+    transition: opacity .4s ease;
+  }
+  #gate-loader-phase.visible { opacity: 1; pointer-events: auto; }
+
+  /* label */
+  #flux-label-wrap {
+    position: relative; height: 68px; width: 100%;
+    display: flex; align-items: center; justify-content: center;
+    perspective: 1000px;
+  }
+  .flux-lbl {
+    position: absolute;
+    font-size: clamp(1.5rem, 5vw, 2.1rem); font-weight: 700;
+    color: rgba(255,255,255,.55); letter-spacing: -.02em;
+    display: flex; transform-style: preserve-3d; will-change: transform, opacity, filter;
+  }
+  .flux-lbl.enter { animation: fluxEnter .9s cubic-bezier(.22,1,.36,1) forwards; }
+  .flux-lbl.exit  { animation: fluxExit  .4s cubic-bezier(.7,0,.84,0) forwards; }
+  @keyframes fluxEnter {
+    0%  { opacity:0; transform:translateZ(-380px) scale(.65); filter:blur(14px); }
+    40% { opacity:1; transform:translateZ(60px) scale(1.08);  filter:blur(0);    }
+    70% {            transform:translateZ(-8px)  scale(.985);                    }
+    100%{ opacity:1; transform:translateZ(0)     scale(1);    filter:blur(0);    }
+  }
+  @keyframes fluxExit {
+    from { opacity:1; transform:translateZ(0)    scale(1);    filter:blur(0);    }
+    to   { opacity:0; transform:translateZ(220px) scale(1.35); filter:blur(10px); }
+  }
+  .flux-char {
+    display: inline-block;
+    animation: charIn .45s cubic-bezier(.22,1,.36,1) both;
+  }
+  @keyframes charIn {
+    from { opacity:0; transform:translateY(12px); filter:blur(8px); }
+    to   { opacity:1; transform:translateY(0);    filter:blur(0);   }
+  }
+
+  /* bar */
+  .flux-track {
+    width: 100%; height: 20px; border-radius: 100px;
+    background: rgba(255,255,255,.08); overflow: hidden;
+    box-shadow: inset 0 2px 3px rgba(0,0,0,.45), inset 0 -1px 2px rgba(255,255,255,.05);
+  }
+  #flux-fill {
+    height: 100%; border-radius: 100px; width: 0%; position: relative; overflow: hidden;
+    background: linear-gradient(90deg,#1d6ffb 0%,#62cbf8 35%,#74e1ff 55%,#62cbf8 78%,#1d6ffb 100%);
+    box-shadow: 0 0 18px rgba(29,111,251,.55), 0 0 32px rgba(116,225,255,.4),
+                inset 0 1.5px 0 rgba(255,255,255,.5), inset 0 -2px 3px rgba(0,40,120,.35);
+    transition: width .5s cubic-bezier(.22,1,.36,1);
+  }
+  #flux-sheen {
+    position: absolute; inset-y: 0; left: 0; width: 50%; border-radius: 100px;
+    background: linear-gradient(90deg,transparent 0%,rgba(255,255,255,.55) 50%,transparent 100%);
+    mix-blend-mode: screen;
+    animation: sheenSweep 1.6s linear infinite;
+  }
+  @keyframes sheenSweep {
+    from { transform: translateX(-110%); }
+    to   { transform: translateX(420%); }
+  }
+
+  /* input styling */
+  #gate-access-input {
+    width: 100%; padding: 14px 18px; border-radius: 12px;
+    border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.06);
+    color: #fff; font-size: 1rem; font-family: inherit; outline: none;
+    text-align: center; letter-spacing: .12em; transition: border-color .2s, background .2s;
+  }
+  #gate-access-input:focus { border-color: rgba(37,99,235,.6); background: rgba(37,99,235,.08); }
+  #gate-access-btn {
+    width: 100%; padding: 14px; border-radius: 12px;
+    background: #2563eb; color: #fff; font-weight: 700; font-size: 1rem;
+    border: none; cursor: pointer; font-family: inherit; transition: background .2s;
+  }
+  #gate-access-btn:hover { background: #1d4ed8; }
+  #gate-error { color: #ef4444; font-size: .82rem; text-align: center; min-height: 18px; }
+</style>
+
+<div id="code-gate">
+  <div id="gate-input-phase">
+    <div style="font-size:1rem;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.35);text-transform:uppercase">Accès privé</div>
+    <div style="font-size:2rem;font-weight:800;color:#fff;letter-spacing:-.02em">Entrez le code</div>
+    <div style="display:flex;flex-direction:column;gap:12px;width:100%">
+      <input id="gate-access-input" type="password" placeholder="Code d'accès" autocomplete="off" />
+      <div id="gate-error"></div>
+      <button id="gate-access-btn" onclick="checkCode()">Accéder →</button>
+    </div>
+  </div>
+
+  <div id="gate-loader-phase">
+    <div id="flux-label-wrap"></div>
+    <div class="flux-track">
+      <div id="flux-fill"><div id="flux-sheen"></div></div>
+    </div>
   </div>
 </div>
 
 <script>
-  (function() {
-    if (localStorage.getItem('mtcorp_access') === 'MTCORP89') {
-      document.getElementById('code-gate').style.display = 'none';
-      document.body.style.overflow = '';
-    } else {
-      document.body.style.overflow = 'hidden';
-    }
-  })();
+(function() {
+  var CORRECT = 'MTCORP89';
+  var PHASES = [
+    { at: 0,   label: 'Vérification…'  },
+    { at: 22,  label: 'Accès accordé'  },
+    { at: 50,  label: 'Chargement…'    },
+    { at: 78,  label: 'Presque là'     },
+    { at: 100, label: 'Bienvenue'      },
+  ];
+
+  if (localStorage.getItem('mtcorp_access') === CORRECT) {
+    document.getElementById('code-gate').style.display = 'none';
+    document.body.style.overflow = '';
+    return;
+  }
+  document.body.style.overflow = 'hidden';
+
   function checkCode() {
-    var val = document.getElementById('gate-input').value.trim().toUpperCase();
-    if (val === 'MTCORP89') {
-      localStorage.setItem('mtcorp_access', 'MTCORP89');
-      document.getElementById('code-gate').style.display = 'none';
-      document.body.style.overflow = '';
+    var val = document.getElementById('gate-access-input').value.trim().toUpperCase();
+    if (val === CORRECT) {
+      localStorage.setItem('mtcorp_access', CORRECT);
+      startLoader();
     } else {
       document.getElementById('gate-error').textContent = 'Code incorrect, réessayez.';
-      document.getElementById('gate-input').value = '';
+      document.getElementById('gate-access-input').value = '';
+      document.getElementById('gate-access-input').focus();
     }
   }
+  window.checkCode = checkCode;
+
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') checkCode();
   });
+
+  function pickLabel(pct) {
+    var active = PHASES[0].label;
+    for (var i = 0; i < PHASES.length; i++) {
+      if (pct >= PHASES[i].at) active = PHASES[i].label;
+    }
+    return active;
+  }
+
+  function setLabel(text) {
+    var wrap = document.getElementById('flux-label-wrap');
+    var old = wrap.querySelector('.flux-lbl');
+    if (old) {
+      old.classList.remove('enter');
+      old.classList.add('exit');
+      (function(el) { setTimeout(function() { el.parentNode && el.parentNode.removeChild(el); }, 450); })(old);
+    }
+    var el = document.createElement('div');
+    el.className = 'flux-lbl enter';
+    text.split('').forEach(function(char, i) {
+      var s = document.createElement('span');
+      s.className = 'flux-char';
+      s.style.animationDelay = (0.15 + i * 0.038) + 's';
+      s.textContent = char === ' ' ? ' ' : char;
+      el.appendChild(s);
+    });
+    wrap.appendChild(el);
+  }
+
+  function startLoader() {
+    document.getElementById('gate-input-phase').classList.add('hidden');
+    setTimeout(function() {
+      document.getElementById('gate-loader-phase').classList.add('visible');
+      setLabel(pickLabel(0));
+      runProgress();
+    }, 380);
+  }
+
+  function runProgress() {
+    var fill = document.getElementById('flux-fill');
+    var duration = 2600;
+    var start = null;
+    var currentLabel = pickLabel(0);
+
+    function tick(ts) {
+      if (!start) start = ts;
+      var pct = Math.min(100, ((ts - start) / duration) * 100);
+      fill.style.width = pct + '%';
+      var lbl = pickLabel(pct);
+      if (lbl !== currentLabel) { currentLabel = lbl; setLabel(lbl); }
+      if (pct < 100) { requestAnimationFrame(tick); return; }
+      setTimeout(function() {
+        var gate = document.getElementById('code-gate');
+        gate.classList.add('fade-out');
+        document.body.style.overflow = '';
+        setTimeout(function() { gate.style.display = 'none'; }, 750);
+      }, 650);
+    }
+    requestAnimationFrame(tick);
+  }
+})();
 </script>
 
 <!-- ═══ NAVBAR ═══ -->
